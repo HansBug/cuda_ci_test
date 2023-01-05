@@ -101,3 +101,16 @@ jobs:
           echo "Cuda install location: ${{steps.cuda-toolkit.outputs.CUDA_PATH}}"
           nvcc -V
           echo that is all
+      - name: Try install pytorch
+        env:
+          CI: 'true'
+        shell: bash
+        run: |
+          pip install torch
+      - name: See if cuda is available in torch
+        env:
+          CI: 'true'
+        shell: bash
+        run: |
+          python -c 'import torch;print(torch.cuda.is_available())'
+          python -c 'import torch;print(torch.randn((3, 4)).cuda())'
